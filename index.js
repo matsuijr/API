@@ -27,6 +27,12 @@ app.use(
   }),
 );
 
+//Importamos las rutas
+const usuarioRoutes = require("./routes/usuarios");
+
+// Usamos las rutas
+app.use("/usuario", usuarioRoutes);
+
 // Servidor
 const PORT = process.env.PORT || 3001;
 
