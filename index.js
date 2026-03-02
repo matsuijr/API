@@ -29,9 +29,11 @@ app.use(
 
 //Importamos las rutas
 const usuarioRoutes = require("./routes/usuarios");
+const rutasAutenticacion = require("./routes/autenticacion");
 
 // Usamos las rutas
 app.use("/usuario", usuarioRoutes);
+app.use("/api/auth", rutasAutenticacion);
 
 // Servidor
 const PORT = process.env.PORT || 3001;
