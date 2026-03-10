@@ -30,10 +30,12 @@ app.use(
 //Importamos las rutas
 const usuarioRoutes = require("./routes/usuarios");
 const rutasAutenticacion = require("./routes/autenticacion");
+const rutasVehiculos = require("./routes/vehiculos");
 
 // Usamos las rutas
 app.use("/usuario", usuarioRoutes);
 app.use("/api/auth", rutasAutenticacion);
+app.use("/api/vehiculos", rutasVehiculos);
 
 // Servidor
 const PORT = process.env.PORT || 3001;
