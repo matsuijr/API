@@ -38,24 +38,41 @@ router.post("/", verificarToken, async (req, res) => {
 //Obtener todos los vehiculos de prueba solo sera la marca
 router.get("/", async (req, res) => {
   try {
-    // objeto dondeestan los filtros
     const filtros = {};
 
-    // si el usuario envia marca en la URL
     if (req.query.marca) {
-      filtros.marca = req.query.marca;
+      filtros.marca = new RegExp(req.query.marca, "i");
     }
 
-    const vehiculos = await Vehiculo.find(filtros).populate(
-      "propietario",
-      "nombre",
-    );
+    if (req.query.anio) {
+      filtros.anio = req.query.anio;
+    }
+
+    if (req.query.precioMin || req.query.precioMax) {
+      filtros.precio = {};
+
+      if (req.query.precioMin) {
+        filtros.precio.$gte = req.query.precioMin;
+      }
+
+      if (req.query.precioMax) {
+        filtros.precio.$lte = req.query.precioMax;
+      }
+    }
+
+    // PAGINACION
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+
+    const vehiculos = await Vehiculo.find(filtros)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate("propietario", "nombre");
 
     res.json(vehiculos);
   } catch (error) {
-    res.status(500).json({
-      mensaje: "Error al obtener vehículos",
-    });
+    res.status(500).json({ mensaje: "Error al obtener vehículos" });
   }
 });
 
