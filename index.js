@@ -27,15 +27,21 @@ app.use(
   }),
 );
 
-//Importamos las rutas
+// Rutas
 const usuarioRoutes = require("./routes/usuarios");
 const rutasAutenticacion = require("./routes/autenticacion");
 const rutasVehiculos = require("./routes/vehiculos");
-
+const preguntasRoutes = require("./routes/preguntas");
+const respuestasRoutes = require("./routes/respuestas");
+const conversacionRoutes = require("./routes/conversacion");
 // Usamos las rutas
 app.use("/usuario", usuarioRoutes);
 app.use("/api/auth", rutasAutenticacion);
 app.use("/api/vehiculos", rutasVehiculos);
+app.use("/api/preguntas", preguntasRoutes);
+app.use("/api/respuestas", respuestasRoutes);
+app.use("/api/conversacion", conversacionRoutes);
+app.use("/imagenes", express.static("imagenes"));
 
 // Servidor
 const PORT = process.env.PORT || 3001;

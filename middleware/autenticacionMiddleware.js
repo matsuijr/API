@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 // Este middleware verifica si el token es válido
 const verificarToken = (req, res, next) => {
@@ -15,9 +16,13 @@ const verificarToken = (req, res, next) => {
     const token = headerAuth.split(" ")[1];
 
     //verificar el token
-    const decoded = jwt.verify(token, "clave_secreta");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.usuario = decoded;
+    req.usuario = {
+      id: decoded.id,
+      _id: decoded.id,
+      email: decoded.email,
+    };
 
     //Continuar hacia la ruta
     next();
